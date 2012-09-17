@@ -1,0 +1,29 @@
+<project name="sjon">
+    <property file="jon.properties" />
+
+    <target name="init">
+        <echo>creating deployment dirs...</echo>
+        <mkdir dir="${apache_deploy}" />
+    </target>
+
+    <target name="clean" depends="init">
+        <delete dir="${apache_deploy}" />
+        <mkdir dir="${apache_deploy}" />
+    </target>
+
+    <target name="deploy" depends="clean">
+        <echo>deploying index.html...</echo>
+        <copy file="index.html" todir="${apache_deploy}" />
+
+        <echo>deploying php files...</echo>
+        <copy todir="${apache_deploy}/service">
+            <fileset dir="service" />
+        </copy>
+
+        <echo>deploying web files...</echo>
+        <copy todir="${apache_deploy}/web">
+            <fileset dir="web" />
+        </copy>
+    </target>
+</project>
+

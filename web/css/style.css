@@ -1,0 +1,91 @@
+body {
+    background-color:blue; /* buffalo blue */
+    font-family:arial !important;
+    font-size:12px !important;
+}
+
+article#outsidecontainer {
+    width:600px;
+    background-color:#E2E4FF; /* baby blue */
+    margin:auto;
+    margin-bottom:5px;
+}
+article#outsidecontainer>header {
+    float:right;
+    color:#E2E4FF; /* baby blue */;
+}
+
+article#outsidecontainer > nav {
+    position:fixed;
+    left:0px;
+    background-color:#E2E4FF; /* baby blue */
+    padding:15px;
+    padding-bottom:0px;
+    padding-top:10px;
+}
+article#outsidecontainer > nav ul {
+    margin-bottom:10px
+}
+article#outsidecontainer > nav li {
+    margin-bottom:1px;
+}
+article#outsidecontainer > nav li button {
+    width:130px;
+    text-align:left;
+}
+
+
+#maintable td span {
+    cursor:pointer;
+    cursor:hand;
+}
+
+.dataTables_filter {
+    display:none;
+}
+
+#searchsection {
+    width:600px;
+    position: fixed;
+    text-align: center;
+    z-index: 100;
+}
+#searchsection input {
+    border-width:0;
+    padding-left:2px;
+    background-color: #E2E4FF; /* baby blue */
+}
+
+.fullprettybox {
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-left-radius: 10px;
+    
+    box-shadow:2px 2px 2px #333333;
+}
+.rightprettybox {
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-right-radius: 10px;
+    
+    box-shadow:2px 2px 2px #333333;
+}
+
+#todo {
+    position:absolute;
+    top:0px;
+    right:0px;
+}
+
+#maintablesection {
+    padding-bottom:7px;
+}
+
+
+
+.ontheflytextbox {
+    width:100px;
+}
