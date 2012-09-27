@@ -120,7 +120,21 @@ jon.CategoryModel = function( $context, category ) {
 
     // add row to Category table
     var render = function() {
-        var markup = '<tr data-catid="%0"><td data-value="%1"><span>%2</span></td><td><table></table></td><td><table></table></td></tr>'.tokenize(category.id, category.name, category.name);
+        var markup = 
+            '<tr data-catid="%0">'.tokenize(category.id) + 
+                '<td data-value="%0">'.tokenize(category.name) + 
+                    '<span>%0</span>'.tokenize(category.name) + 
+                    '<div class="editsection"></div>' + 
+                '</td>' + 
+                '<td>' + 
+                    '<table></table>' + 
+                    '<div class="editsection"></div>' + 
+                '</td>' + 
+                '<td>' + 
+                    '<table></table>' +
+                    '<div class="editsection"></div>' + 
+                '</td>' + 
+            '</tr>';
 
         $categoryTr = $(markup).appendTo($context);
 
@@ -132,21 +146,34 @@ jon.CategoryModel = function( $context, category ) {
         render();
     })();
 
+    // add buttons to: 
+    // locators().$singleCol().find('.editsection').append($emptySingleRow);
     this.applyEditMode = function() {
+        // functions to add buttons consitently
+        var addCategoryButton = function( markup ) {
+            locators().$categoryCol().find('.editsection').append(markup);
+        };
+        var addPairButton = function( markup ) {
+            locators().$pairCol().find('.editsection').append(markup);
+        };
+        var addSingleButton = function( markup ) {
+            locators().$singleCol().find('.editsection').append(markup);
+        };
+
         // append save buttons
-        var saveButtonMarkup = '<br /><button class="save"></button>';
-        locators().$categoryCol().append(saveButtonMarkup);
-        locators().$pairCol().append(saveButtonMarkup);
-        locators().$singleCol().append(saveButtonMarkup);
+        var saveButtonMarkup = '<button class="save"></button>';
+        addCategoryButton(saveButtonMarkup);
+        addPairButton(saveButtonMarkup);
+        addSingleButton(saveButtonMarkup);
         
         // append delete button
-        var deleteButtonMarkup = '<br /><button class="delete"></button>';
-        locators().$categoryCol().append(deleteButtonMarkup);
+        var deleteButtonMarkup = '<button class="delete"></button>';
+        addCategoryButton(deleteButtonMarkup);
 
         // append + buttons
-        var anotherRowButtonMarkup = '<br /><button class="addanotherrow"></button>';
-        locators().$pairCol().append(anotherRowButtonMarkup);
-        locators().$singleCol().append(anotherRowButtonMarkup);
+        var anotherRowButtonMarkup = '<button class="addanotherrow"></button>';
+        addPairButton(anotherRowButtonMarkup);
+        addSingleButton(anotherRowButtonMarkup);
 
         // when "add another row" buttons are clicked, add another empty row
         locators().$pairAddAnotherRowButton().bind('click', function() {
@@ -176,8 +203,7 @@ jon.CategoryModel = function( $context, category ) {
         
         // category delete button
         locators().$categoryDeleteButton().bind('click', function() {
-        	
-        	var confirmResult = confirm('you sure?');
+            var confirmResult = confirm('you sure?');
             if( confirmResult ) {
             	jon.CategoryController.deleteCategory(category.id);
             }

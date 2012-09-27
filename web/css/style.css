@@ -50,6 +50,10 @@ button.addanotherrow {
     background-repeat: no-repeat;
 }
 
+.editsection {
+    background-color:gold;
+}
+
 
 #maintable td span {
     cursor:pointer;
