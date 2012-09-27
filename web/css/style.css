@@ -51,7 +51,14 @@ button.addanotherrow {
 }
 
 .editsection {
-    background-color:gold;
+    padding-left:7px;
+}
+.first .editsection {
+    padding-left:0px;
+    margin-top:3px;
+}
+.editsection button {
+    margin-right:2px;
 }
 
 

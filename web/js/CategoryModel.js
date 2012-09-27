@@ -122,7 +122,7 @@ jon.CategoryModel = function( $context, category ) {
     var render = function() {
         var markup = 
             '<tr data-catid="%0">'.tokenize(category.id) + 
-                '<td data-value="%0">'.tokenize(category.name) + 
+                '<td class="first" data-value="%0">'.tokenize(category.name) + 
                     '<span>%0</span>'.tokenize(category.name) + 
                     '<div class="editsection"></div>' + 
                 '</td>' + 
