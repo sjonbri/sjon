@@ -33,6 +33,22 @@ article#outsidecontainer > nav li button {
     width:130px;
     text-align:left;
 }
+#maintable button {
+    height:20px;
+    width:20px;
+}
+button.save {
+    background-image: url('../img/save.png');
+    background-repeat: no-repeat;
+}
+button.delete {
+    background-image: url('../img/delete.png');
+    background-repeat: no-repeat;
+}
+button.addanotherrow {
+    background-image: url('../img/add.png');
+    background-repeat: no-repeat;
+}
 
 
 #maintable td span {

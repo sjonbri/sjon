@@ -134,17 +134,17 @@ jon.CategoryModel = function( $context, category ) {
 
     this.applyEditMode = function() {
         // append save buttons
-        var saveButtonMarkup = '<br /><button class="save">save</button>';
+        var saveButtonMarkup = '<br /><button class="save"></button>';
         locators().$categoryCol().append(saveButtonMarkup);
         locators().$pairCol().append(saveButtonMarkup);
         locators().$singleCol().append(saveButtonMarkup);
         
         // append delete button
-        var deleteButtonMarkup = '<br /><button class="delete">delete</button>';
+        var deleteButtonMarkup = '<br /><button class="delete"></button>';
         locators().$categoryCol().append(deleteButtonMarkup);
 
         // append + buttons
-        var anotherRowButtonMarkup = '<br /><button class="addanotherrow">+</button>';
+        var anotherRowButtonMarkup = '<br /><button class="addanotherrow"></button>';
         locators().$pairCol().append(anotherRowButtonMarkup);
         locators().$singleCol().append(anotherRowButtonMarkup);
 
