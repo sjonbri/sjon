@@ -26,6 +26,12 @@ jon.CategoryModel = function( $context, category ) {
             $singleSaveButton: function() {
                 return locators().$singleCol().find('button.save');
             },
+            $pairAddAnotherRowButton: function() {
+                return locators().$pairCol().find('button.addanotherrow');
+            },
+            $singleAddAnotherRowButton: function() {
+                return locators().$singleCol().find('button.addanotherrow');
+            },
             $pairTable: function() {
                 return locators().$pairCol().find('table');
             },
@@ -54,11 +60,12 @@ jon.CategoryModel = function( $context, category ) {
         });
     };
 
-    // add empty rows for the pairs and singles table for adding new entries
-    var addEmptyDetailRows = function() {
+    var addAnotherPairRow = function() {
         var $emptyPairRow = $(pairTemplate.tokenize('','_','_'));
         locators().$pairTable().append($emptyPairRow);
+    };
 
+    var addAnotherSingleRow = function() {
         var $emptySingleRow = $(singleTemplate.tokenize('','_'));
         locators().$singleTable().append($emptySingleRow);
     };
@@ -126,8 +133,6 @@ jon.CategoryModel = function( $context, category ) {
     })();
 
     this.applyEditMode = function() {
-        addEmptyDetailRows();
-
         // append save buttons
         var saveButtonMarkup = '<br /><button class="save">save</button>';
         locators().$categoryCol().append(saveButtonMarkup);
@@ -138,10 +143,18 @@ jon.CategoryModel = function( $context, category ) {
         var deleteButtonMarkup = '<br /><button class="delete">delete</button>';
         locators().$categoryCol().append(deleteButtonMarkup);
 
-        // append +  button
-        var anotherRowButtonMarkup = '<br /><button class="anotherrow">+</button>';
+        // append + buttons
+        var anotherRowButtonMarkup = '<br /><button class="addanotherrow">+</button>';
         locators().$pairCol().append(anotherRowButtonMarkup);
         locators().$singleCol().append(anotherRowButtonMarkup);
+
+        // when "add another row" buttons are clicked, add another empty row
+        locators().$pairAddAnotherRowButton().bind('click', function() {
+            addAnotherPairRow();
+        });
+        locators().$singleAddAnotherRowButton().bind('click', function() {
+            addAnotherSingleRow();
+        });
 
         // contenteditable
         locators().$categoryCol().find('span').attr('contenteditable', 'true');
