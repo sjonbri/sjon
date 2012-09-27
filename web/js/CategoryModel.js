@@ -138,6 +138,11 @@ jon.CategoryModel = function( $context, category ) {
         var deleteButtonMarkup = '<br /><button class="delete">delete</button>';
         locators().$categoryCol().append(deleteButtonMarkup);
 
+        // append +  button
+        var anotherRowButtonMarkup = '<br /><button class="anotherrow">+</button>';
+        locators().$pairCol().append(anotherRowButtonMarkup);
+        locators().$singleCol().append(anotherRowButtonMarkup);
+
         // contenteditable
         locators().$categoryCol().find('span').attr('contenteditable', 'true');
         locators().$pairCol().find('td').attr('contenteditable', 'true');
