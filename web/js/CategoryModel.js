@@ -90,17 +90,21 @@ jon.CategoryModel = function( $context, category ) {
     };
 
     var addAnotherPairRow = function() {
-        var newPairTemplate = '<tr data-pairid="%0"><td></td><td>%1</td><td>%2</td></tr>';
+        var newPairTemplate = '<tr data-pairid="%0"><td></td><td data-field="name">%1</td><td data-field="value">%2</td></tr>';
         var $emptyPairRow = $(newPairTemplate.tokenize('','_','_'));
         locators().$pairTable().append($emptyPairRow);
         makeContentEditable();
+        //$emptyPairRow.find("td[data-field='name']").highlight();// todo
+        $emptyPairRow.find("td[data-field='name']").focus();
     };
 
     var addAnotherSingleRow = function() {
-        var newSingleTemplate = '<tr data-singleid="%0"><td></td><td>%1</td></tr>';
+        var newSingleTemplate = '<tr data-singleid="%0"><td></td><td data-field="name">%1</td></tr>';
         var $emptySingleRow = $(newSingleTemplate.tokenize('','_'));
         locators().$singleTable().append($emptySingleRow);
         makeContentEditable();
+        //$emptyPairRow.find("td[data-field='name']").highlight();// todo
+        $emptySingleRow.find("td[data-field='name']").focus();
     };
     
     var isVisible = function() {
