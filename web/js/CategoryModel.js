@@ -37,6 +37,15 @@ jon.CategoryModel = function( $context, category ) {
             },
             $singleTable: function() {
                 return locators().$singleCol().find('table');
+            },
+            $categoryEditSection: function() {
+                return locators().$categoryCol().find('.editsection');
+            },
+            $pairEditSection: function() {
+                return locators().$pairCol().find('.editsection');
+            },
+            $singleEditSection: function() {
+                return locators().$singleCol().find('.editsection');
             }
         };
     }; // end of locators
@@ -195,37 +204,40 @@ jon.CategoryModel = function( $context, category ) {
         locators().$singleCol().find('td').attr('contenteditable', 'true');
     };
 
+    // functions to add buttons consitently
+    var addCategoryButton = function( markup ) {
+        locators().$categoryEditSection().append(markup);
+    };
+    var addPairButton = function( markup ) {
+        locators().$pairEditSection().append(markup);
+    };
+    var addSingleButton = function( markup ) {
+        locators().$singleEditSection().append(markup);
+    };
+
+
     // init
     (function() { 
         render();
     })();
 
-    // add buttons to: 
-    // locators().$singleCol().find('.editsection').append($emptySingleRow);
+    // put in edit mode
     this.applyEditMode = function() {
-        // functions to add buttons consitently
-        var addCategoryButton = function( markup ) {
-            locators().$categoryCol().find('.editsection').append(markup);
-        };
-        var addPairButton = function( markup ) {
-            locators().$pairCol().find('.editsection').append(markup);
-        };
-        var addSingleButton = function( markup ) {
-            locators().$singleCol().find('.editsection').append(markup);
-        };
+        // markup
+        var saveButtonMarkup = '<button class="save"></button>';
+        var deleteButtonMarkup = '<button class="delete"></button>';
+        var anotherRowButtonMarkup = '<button class="addanotherrow"></button>';
+        var editTd = '<td class="edittd"><button class="delete"></button></td>';
 
         // append save buttons
-        var saveButtonMarkup = '<button class="save"></button>';
         addCategoryButton(saveButtonMarkup);
         addPairButton(saveButtonMarkup);
         addSingleButton(saveButtonMarkup);
         
-        // append delete button
-        var deleteButtonMarkup = '<button class="delete"></button>';
+        // append category delete button
         addCategoryButton(deleteButtonMarkup);
 
         // append addanotherrow buttons
-        var anotherRowButtonMarkup = '<button class="addanotherrow"></button>';
         addPairButton(anotherRowButtonMarkup);
         addSingleButton(anotherRowButtonMarkup);
 
@@ -239,11 +251,9 @@ jon.CategoryModel = function( $context, category ) {
 
         // append row delete buttons
         $.each(locators().$pairTable().find('tr'), function( key, value ) {
-            var editTd = '<td class="edittd"><button class="delete"></button></td>';
             $(value).prepend(editTd);
         });
         $.each(locators().$singleTable().find('tr'), function( key, value ) {
-            var editTd = '<td class="edittd"><button class="delete"></button></td>';
             $(value).prepend(editTd);
         });
 
