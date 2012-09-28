@@ -1,0 +1,18 @@
+GET SETUP:
+
+- INSTALL STUFF
+  sudo apt-get install apache2
+  sudo apt-get install php5 libapache2-mod-php5
+  sudo apt-get install php5-mysql
+  sudo apt-get install ant
+  install mysql
+
+- PREPARE LOCAL ENVIRONMENT
+  check jon.properties
+  creates deployment dirs in apache dir: 
+  sudo ant deploy
+
+- USEFUL COMMANDS
+  To restart apache: 
+  sudo /etc/init.d/apache2 restart"
+

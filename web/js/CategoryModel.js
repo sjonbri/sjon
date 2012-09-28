@@ -87,12 +87,14 @@ jon.CategoryModel = function( $context, category ) {
         var newPairTemplate = '<tr data-pairid="%0"><td></td><td>%1</td><td>%2</td></tr>';
         var $emptyPairRow = $(newPairTemplate.tokenize('','_','_'));
         locators().$pairTable().append($emptyPairRow);
+        makeContentEditable();
     };
 
     var addAnotherSingleRow = function() {
         var newSingleTemplate = '<tr data-singleid="%0"><td></td><td>%1</td></tr>';
         var $emptySingleRow = $(newSingleTemplate.tokenize('','_'));
         locators().$singleTable().append($emptySingleRow);
+        makeContentEditable();
     };
     
     var isVisible = function() {
@@ -176,6 +178,13 @@ jon.CategoryModel = function( $context, category ) {
         addEventHandlers();
     };
 
+    var makeContentEditable = function() {
+        // contenteditable
+        locators().$categoryCol().find('span').attr('contenteditable', 'true');
+        locators().$pairCol().find('td').attr('contenteditable', 'true');
+        locators().$singleCol().find('td').attr('contenteditable', 'true');
+    };
+
     // init
     (function() { 
         render();
@@ -228,10 +237,7 @@ jon.CategoryModel = function( $context, category ) {
             $(value).prepend(editTd);
         });
 
-        // contenteditable
-        locators().$categoryCol().find('span').attr('contenteditable', 'true');
-        locators().$pairCol().find('td').attr('contenteditable', 'true');
-        locators().$singleCol().find('td').attr('contenteditable', 'true');
+        makeContentEditable();
 
         // category save button
         locators().$categorySaveButton().bind('click', function() {
