@@ -221,76 +221,81 @@ jon.CategoryModel = function( $context, category ) {
         render();
     })();
 
+    var editMode = false;
+
     // put in edit mode
     this.applyEditMode = function() {
-        // markup
-        var saveButtonMarkup = '<button class="save"></button>';
-        var deleteButtonMarkup = '<button class="delete"></button>';
-        var anotherRowButtonMarkup = '<button class="addanotherrow"></button>';
-        var editTd = '<td class="edittd"><button class="delete"></button></td>';
+        if( editMode === false ) {
+            editMode = true;
 
-        // append save buttons
-        addCategoryButton(saveButtonMarkup);
-        addPairButton(saveButtonMarkup);
-        addSingleButton(saveButtonMarkup);
-        
-        // append category delete button
-        addCategoryButton(deleteButtonMarkup);
-
-        // append addanotherrow buttons
-        addPairButton(anotherRowButtonMarkup);
-        addSingleButton(anotherRowButtonMarkup);
-
-        // when "add another row" buttons are clicked, add another empty row
-        locators().$pairAddAnotherRowButton().bind('click', function() {
-            addAnotherPairRow();
-        });
-        locators().$singleAddAnotherRowButton().bind('click', function() {
-            addAnotherSingleRow();
-        });
-
-        // append row delete buttons
-        $.each(locators().$pairTable().find('tr'), function( key, value ) {
-            $(value).prepend(editTd);
-        });
-        $.each(locators().$singleTable().find('tr'), function( key, value ) {
-            $(value).prepend(editTd);
-        });
-
-        makeContentEditable();
-
-        // category save button
-        locators().$categorySaveButton().bind('click', function() {
-            var categoryToSave = {
-               id: category.id,
-               name: locators().$categoryCol().children('span').text()
-            };
-
-            jon.CategoryController.updateCategory(categoryToSave);
+            // markup
+            var saveButtonMarkup = '<button class="save"></button>';
+            var deleteButtonMarkup = '<button class="delete"></button>';
+            var anotherRowButtonMarkup = '<button class="addanotherrow"></button>';
+            var editTd = '<td class="edittd"><button class="delete"></button></td>';
+    
+            // append save buttons
+            addCategoryButton(saveButtonMarkup);
+            addPairButton(saveButtonMarkup);
+            addSingleButton(saveButtonMarkup);
             
-            // stop event propegation
-            return false;
-        });
-        
-        // category delete button
-        locators().$categoryDeleteButton().bind('click', function() {
-            var confirmResult = confirm('you sure?');
-            if( confirmResult ) {
-            	jon.CategoryController.deleteCategory(category.id);
-            }
-            else {
-            	jon.ApplicationController.mainSearchFocus();
-            }
-            
-            // stop event propegation
-            return false;
-        });
+            // append category delete button
+            addCategoryButton(deleteButtonMarkup);
 
-        // pair save button
-        locators().$pairSaveButton().bind('click', function() {
-            var pairsObject = {};
-            pairsObject['categoryid'] = category.id;
-            pairsObject['pairs'] = new Array();
+            // append addanotherrow buttons
+            addPairButton(anotherRowButtonMarkup);
+            addSingleButton(anotherRowButtonMarkup);
+    
+            // when "add another row" buttons are clicked, add another empty row
+            locators().$pairAddAnotherRowButton().bind('click', function() {
+                addAnotherPairRow();
+            });
+            locators().$singleAddAnotherRowButton().bind('click', function() {
+                addAnotherSingleRow();
+            });
+
+            // append row delete buttons
+            $.each(locators().$pairTable().find('tr'), function( key, value ) {
+                $(value).prepend(editTd);
+            });
+            $.each(locators().$singleTable().find('tr'), function( key, value ) {
+                $(value).prepend(editTd);
+            });
+    
+            makeContentEditable();
+    
+            // category save button
+            locators().$categorySaveButton().bind('click', function() {
+                var categoryToSave = {
+                   id: category.id,
+                   name: locators().$categoryCol().children('span').text()
+                };
+    
+                jon.CategoryController.updateCategory(categoryToSave);
+                
+                // stop event propegation
+                return false;
+            });
+            
+            // category delete button
+            locators().$categoryDeleteButton().bind('click', function() {
+                var confirmResult = confirm('you sure?');
+                if( confirmResult ) {
+                	jon.CategoryController.deleteCategory(category.id);
+                }
+                else {
+                	jon.ApplicationController.mainSearchFocus();
+                }
+                
+                // stop event propegation
+                return false;
+            });
+    
+            // pair save button
+            locators().$pairSaveButton().bind('click', function() {
+                var pairsObject = {};
+                pairsObject['categoryid'] = category.id;
+                pairsObject['pairs'] = new Array();
 
             $.each(locators().$pairCol().find('table tr'), function( key, row ) {
                 var name = $(row).find('td:nth-child(2)').text();
@@ -304,31 +309,32 @@ jon.CategoryModel = function( $context, category ) {
                 }
             });
 
-            jon.CategoryController.updatePairs(pairsObject);
-        });
-
-        // single save button
-        locators().$singleSaveButton().bind('click', function() {
-            var singlesObject = {};
-            singlesObject['categoryid'] = category.id;
-            singlesObject['singles'] = new Array();
-
-            $.each(locators().$singleCol().find('table tr'), function( key, row ) {
-                var value = $(row).find('td:nth-child(2)').text();
-
-                if( value != '' ) {
-                    singlesObject['singles'].push({
-                        value: value
-                    });
-                }
+                jon.CategoryController.updatePairs(pairsObject);
             });
-
-            jon.CategoryController.updateSingles(singlesObject);
-        });
-
-        $('.edittd .delete').bind('click', function() {
-            $(this).closest('tr').remove();
-        });
+    
+            // single save button
+            locators().$singleSaveButton().bind('click', function() {
+                var singlesObject = {};
+                singlesObject['categoryid'] = category.id;
+                singlesObject['singles'] = new Array();
+    
+                $.each(locators().$singleCol().find('table tr'), function( key, row ) {
+                    var value = $(row).find('td:nth-child(2)').text();
+    
+                    if( value != '' ) {
+                        singlesObject['singles'].push({
+                            value: value
+                        });
+                    }
+                });
+    
+                jon.CategoryController.updateSingles(singlesObject);
+            });
+    
+            $('.edittd .delete').bind('click', function() {
+                $(this).closest('tr').remove();
+            });
+        } //end of if( editMode === false )
     }; // end of applyEditMode
     
     this.getName = function() {
