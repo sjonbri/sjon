@@ -100,31 +100,31 @@ jon.CategoryData = (function() {
                 categoryName: categoryName
             }, function( data ) {
             	if( data ) {
-	                alert(data);
-	                
-	                if( callback ) {
-	                	callback();
-	                }
+                    alert(data);
+
+                    if( callback ) {
+                        callback();
+                    }
             	}
             	else {
-            		jon.ApplicationController.notLoggedIn();
+                    jon.ApplicationController.notLoggedIn();
             	}
             });
         },
         
         deleteCategory: function( categoryid ) {
-        	$.getJSON(service('DeleteCategory'), {
-        		categoryid: categoryid
+            $.getJSON(service('DeleteCategory'), {
+                categoryid: categoryid
             }, function( data ) {
-            	if( data ) {
-	                alert(data);
-	                
-	                if( callback ) {
-	                	callback();
-	                }
+                if( data ) {
+                    alert(data);
+
+                    if( callback ) {
+                        callback();
+                    }
             	}
             	else {
-            		jon.ApplicationController.notLoggedIn();
+                    jon.ApplicationController.notLoggedIn();
             	}
             });
         }

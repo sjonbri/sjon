@@ -1,7 +1,7 @@
 <?php session_start(); ?>
 <?php require_once('dbConnect.php') ?>
 <?php
-if( $_SESSION['isauthenticated'] == 'y' 
+if( $_SESSION['isauthenticated'] == 'y' ) {
     $categoryid = $_GET["categoryid"];
     
     $query = "delete from category where id = $categoryid";
