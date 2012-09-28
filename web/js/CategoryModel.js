@@ -2,6 +2,7 @@ jon.CategoryModel = function( $context, category ) {
     var $categoryTr;
     var pairTemplate = '<tr data-pairid="%0"><td>%1</td><td>%2</td></tr>';
     var singleTemplate = '<tr data-singleid="%0"><td>%1</td></tr>';
+    var editMode = false;
 
     var locators = function(){
         return {
@@ -51,7 +52,7 @@ jon.CategoryModel = function( $context, category ) {
     }; // end of locators
 
     // display pairs and singles for the passed-in tr context
-    var displayDetails = function( callback ) {
+    var _displayDetails = function( callback ) {
         var count = 0;
         var done = function() {
             count = count + 1;
@@ -98,32 +99,32 @@ jon.CategoryModel = function( $context, category ) {
         });
     };
 
-    var addAnotherPairRow = function() {
+    var _addAnotherPairRow = function() {
         var newPairTemplate = '<tr data-pairid="%0"><td></td><td data-field="name">%1</td><td data-field="value">%2</td></tr>';
         var $emptyPairRow = $(newPairTemplate.tokenize('','_','_'));
         locators().$pairTable().append($emptyPairRow);
-        makeContentEditable();
+        _makeContentEditable();
         //$emptyPairRow.find("td[data-field='name']").highlight();// todo
         $emptyPairRow.find("td[data-field='name']").focus();
     };
 
-    var addAnotherSingleRow = function() {
+    var _addAnotherSingleRow = function() {
         var newSingleTemplate = '<tr data-singleid="%0"><td></td><td data-field="name">%1</td></tr>';
         var $emptySingleRow = $(newSingleTemplate.tokenize('','_'));
         locators().$singleTable().append($emptySingleRow);
-        makeContentEditable();
+        _makeContentEditable();
         //$emptyPairRow.find("td[data-field='name']").highlight();// todo
         $emptySingleRow.find("td[data-field='name']").focus();
     };
     
-    var isVisible = function() {
+    var _isVisible = function() {
     	return ( $('[data-catid=%0]'.tokenize(category.id)).length >= 1 );
     };
     
     var _show = function( callback ) {
-    	if( isVisible() ) {
-            if( !isOpen() ) {
-                displayDetails(callback);
+    	if( _isVisible() ) {
+            if( !_isOpen() ) {
+                _displayDetails(callback);
             }
             else {
                 if( callback ) {
@@ -148,7 +149,7 @@ jon.CategoryModel = function( $context, category ) {
     };
     
     // adds event handlers
-    var addEventHandlers = function() {
+    var _addEventHandlers = function() {
         // click handler for the category headers
         locators().$categoryCol().bind('click', function() {
         	if( isVisible() ) {
@@ -163,7 +164,7 @@ jon.CategoryModel = function( $context, category ) {
     };
 
     // is the passed in tr context open
-    var isOpen = function() {
+    var _isOpen = function() {
         var bIsOpen = false;
 
         var numberOfChildTds = locators().$pairCol().find('table td').length;
@@ -175,7 +176,7 @@ jon.CategoryModel = function( $context, category ) {
     };
 
     // add row to Category table
-    var render = function() {
+    var _render = function() {
         var markup = 
             '<tr data-catid="%0">'.tokenize(category.id) + 
                 '<td class="first" data-value="%0">'.tokenize(category.name) + 
@@ -194,10 +195,10 @@ jon.CategoryModel = function( $context, category ) {
 
         $categoryTr = $(markup).appendTo($context);
 
-        addEventHandlers();
+        _addEventHandlers();
     };
 
-    var makeContentEditable = function() {
+    var _makeContentEditable = function() {
         // contenteditable
         locators().$categoryCol().find('span').attr('contenteditable', 'true');
         locators().$pairCol().find('td').attr('contenteditable', 'true');
@@ -205,23 +206,22 @@ jon.CategoryModel = function( $context, category ) {
     };
 
     // functions to add buttons consitently
-    var addCategoryButton = function( markup ) {
+    var _addCategoryButton = function( markup ) {
         locators().$categoryEditSection().append(markup);
     };
-    var addPairButton = function( markup ) {
+    var _addPairButton = function( markup ) {
         locators().$pairEditSection().append(markup);
     };
-    var addSingleButton = function( markup ) {
+    var _addSingleButton = function( markup ) {
         locators().$singleEditSection().append(markup);
     };
 
 
     // init
     (function() { 
-        render();
+        _render();
     })();
 
-    var editMode = false;
 
     // put in edit mode
     this.applyEditMode = function() {
@@ -235,23 +235,23 @@ jon.CategoryModel = function( $context, category ) {
             var editTd = '<td class="edittd"><button class="delete"></button></td>';
     
             // append save buttons
-            addCategoryButton(saveButtonMarkup);
-            addPairButton(saveButtonMarkup);
-            addSingleButton(saveButtonMarkup);
+            _addCategoryButton(saveButtonMarkup);
+            _addPairButton(saveButtonMarkup);
+            _addSingleButton(saveButtonMarkup);
             
             // append category delete button
-            addCategoryButton(deleteButtonMarkup);
+            _addCategoryButton(deleteButtonMarkup);
 
             // append addanotherrow buttons
-            addPairButton(anotherRowButtonMarkup);
-            addSingleButton(anotherRowButtonMarkup);
+            _addPairButton(anotherRowButtonMarkup);
+            _addSingleButton(anotherRowButtonMarkup);
     
             // when "add another row" buttons are clicked, add another empty row
             locators().$pairAddAnotherRowButton().bind('click', function() {
-                addAnotherPairRow();
+                _addAnotherPairRow();
             });
             locators().$singleAddAnotherRowButton().bind('click', function() {
-                addAnotherSingleRow();
+                _addAnotherSingleRow();
             });
 
             // append row delete buttons
@@ -262,7 +262,7 @@ jon.CategoryModel = function( $context, category ) {
                 $(value).prepend(editTd);
             });
     
-            makeContentEditable();
+            _makeContentEditable();
     
             // category save button
             locators().$categorySaveButton().bind('click', function() {
@@ -297,17 +297,17 @@ jon.CategoryModel = function( $context, category ) {
                 pairsObject['categoryid'] = category.id;
                 pairsObject['pairs'] = new Array();
 
-            $.each(locators().$pairCol().find('table tr'), function( key, row ) {
-                var name = $(row).find('td:nth-child(2)').text();
-                var value = $(row).find('td:last-child').text();
-
-                if( name != '' && value != '' ) {
-                    pairsObject['pairs'].push({
-                        name: name,
-                        value: value
-                    });
-                }
-            });
+                $.each(locators().$pairCol().find('table tr'), function( key, row ) {
+                    var name = $(row).find('td:nth-child(2)').text();
+                    var value = $(row).find('td:last-child').text();
+    
+                    if( name != '' && value != '' ) {
+                        pairsObject['pairs'].push({
+                            name: name,
+                            value: value
+                        });
+                    }
+                });
 
                 jon.CategoryController.updatePairs(pairsObject);
             });
