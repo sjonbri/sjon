@@ -7,6 +7,12 @@ GET SETUP:
   sudo apt-get install ant
   install mysql
 
+- SETUP DATABASE
+  create database icecoldn_jon;
+  use icecoldn_jon;
+  create user 'icecoldn_jonbri'@'localhost' identified by 'jbsi1985';
+  grant all on *.* to 'icecoldn_jonbri'@'localhost';
+
 - PREPARE LOCAL ENVIRONMENT
   check jon.properties
   creates deployment dirs in apache dir: 
