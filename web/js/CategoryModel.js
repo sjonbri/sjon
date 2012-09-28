@@ -298,8 +298,12 @@ jon.CategoryModel = function( $context, category ) {
             });
 
             jon.CategoryController.updateSingles(singlesObject);
-        }); // end of applyEditMode
-    }; // end of return
+        });
+
+        $('.edittd .delete').bind('click', function() {
+            $(this).closest('tr').remove();
+        });
+    }; // end of applyEditMode
     
     this.getName = function() {
     	return category.name;
