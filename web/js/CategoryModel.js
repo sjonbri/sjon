@@ -84,12 +84,14 @@ jon.CategoryModel = function( $context, category ) {
     };
 
     var addAnotherPairRow = function() {
-        var $emptyPairRow = $(pairTemplate.tokenize('','_','_'));
+        var newPairTemplate = '<tr data-pairid="%0"><td></td><td>%1</td><td>%2</td></tr>';
+        var $emptyPairRow = $(newPairTemplate.tokenize('','_','_'));
         locators().$pairTable().append($emptyPairRow);
     };
 
     var addAnotherSingleRow = function() {
-        var $emptySingleRow = $(singleTemplate.tokenize('','_'));
+        var newSingleTemplate = '<tr data-singleid="%0"><td></td><td>%1</td></tr>';
+        var $emptySingleRow = $(newSingleTemplate.tokenize('','_'));
         locators().$singleTable().append($emptySingleRow);
     };
     
@@ -218,7 +220,12 @@ jon.CategoryModel = function( $context, category ) {
 
         // append row delete buttons
         $.each(locators().$pairTable().find('tr'), function( key, value ) {
-            $(value).css('background-color', 'red');
+            var editTd = '<td class="edittd"><button class="delete"></button></td>';
+            $(value).prepend(editTd);
+        });
+        $.each(locators().$singleTable().find('tr'), function( key, value ) {
+            var editTd = '<td class="edittd"><button class="delete"></button></td>';
+            $(value).prepend(editTd);
         });
 
         // contenteditable
