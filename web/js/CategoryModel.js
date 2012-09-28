@@ -57,6 +57,9 @@ jon.CategoryModel = function( $context, category ) {
         // get data pairs
         jon.CategoryData.retrievePairs(category.id, function( data ) {
             var pairCount = data.length;
+            if( pairCount === 0 ) {
+                done();
+            }
             $.each( data, function( key, value ) {
                 locators().$pairTable().append(
                     pairTemplate.tokenize(value.id, value.name, value.value));
@@ -71,6 +74,9 @@ jon.CategoryModel = function( $context, category ) {
         // get data singles
         jon.CategoryData.retrieveSingles(category.id, function( data ) {
             var singleCount = data.length;
+            if( singleCount === 0 ) {
+                done();
+            }
             $.each( data, function( key, value ) {
                 locators().$singleTable().append(
                     singleTemplate.tokenize(value.id, value.value));
@@ -273,7 +279,7 @@ jon.CategoryModel = function( $context, category ) {
             pairsObject['pairs'] = new Array();
 
             $.each(locators().$pairCol().find('table tr'), function( key, row ) {
-                var name = $(row).find('td:first-child').text();
+                var name = $(row).find('td:nth-child(2)').text();
                 var value = $(row).find('td:last-child').text();
 
                 if( name != '' && value != '' ) {
@@ -294,7 +300,7 @@ jon.CategoryModel = function( $context, category ) {
             singlesObject['singles'] = new Array();
 
             $.each(locators().$singleCol().find('table tr'), function( key, row ) {
-                var value = $(row).find('td:first-child').text();
+                var value = $(row).find('td:nth-child(2)').text();
 
                 if( value != '' ) {
                     singlesObject['singles'].push({
