@@ -62,13 +62,12 @@ jon.CategoryController = (function() {
         },
         
         deleteCategory: function( categoryid ) {
-        	jon.CategoryData.deleteCategory(categoryid);
-        	
-        	jon.ApplicationController.refreshApplication(false);
+            jon.CategoryData.deleteCategory(categoryid);
+            jon.ApplicationController.refreshApplication(false);
         },
         
         openRow: function( dataValue ) {
-        	$.each(categories, function( key, category ) {
+            $.each(categories, function( key, category ) {
                 if( dataValue === category.getName() ) {
                 	category.show();
                 }
@@ -76,15 +75,21 @@ jon.CategoryController = (function() {
         },
         
         closeAllRows: function() {
-        	$.each(categories, function( key, category ) {
+            $.each(categories, function( key, category ) {
                 category.hide();
             });
         },
         
-        expandAll: function() {
-        	$.each(categories, function( key, category ) {
-                category.show();
-            });
+        expandAll: function( callback ) {
+            var count = categories.length;
+            $.each(categories, function( key, category ) {
+                category.show( function() {
+                    count = count - 1;
+                    if( count === 0 && callback ) {
+                        callback();
+                    }
+                }); // end of category.show
+            }); // end of .each
         }
     };
 })();

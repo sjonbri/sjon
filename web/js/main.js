@@ -14,8 +14,9 @@
         jon.CategoryController.start();
 
         $('#editmode').click(function() {
-        	jon.CategoryController.expandAll();
-            jon.CategoryController.applyEditMode();
+            jon.CategoryController.expandAll(function() {
+                jon.CategoryController.applyEditMode();
+            });
         });
         
         $('#expandall').click(function() {

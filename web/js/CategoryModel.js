@@ -42,20 +42,43 @@ jon.CategoryModel = function( $context, category ) {
     }; // end of locators
 
     // display pairs and singles for the passed-in tr context
-    var displayDetails = function() {
+    var displayDetails = function( callback ) {
+        var count = 0;
+        var done = function() {
+            count = count + 1;
+
+            if( count === 2 ) {
+                if( callback ) {
+                    callback();
+                }
+            }
+        };
+
         // get data pairs
         jon.CategoryData.retrievePairs(category.id, function( data ) {
+            var pairCount = data.length;
             $.each( data, function( key, value ) {
                 locators().$pairTable().append(
                     pairTemplate.tokenize(value.id, value.name, value.value));
+
+                pairCount = pairCount - 1;
+                if( pairCount === 0 ) {
+                    done();
+                }
             });
         });
 
         // get data singles
         jon.CategoryData.retrieveSingles(category.id, function( data ) {
+            var singleCount = data.length;
             $.each( data, function( key, value ) {
                 locators().$singleTable().append(
                     singleTemplate.tokenize(value.id, value.value));
+
+                singleCount = singleCount - 1;
+                if( singleCount === 0 ) {
+                    done();
+                }
             });
         });
     };
@@ -74,12 +97,22 @@ jon.CategoryModel = function( $context, category ) {
     	return ( $('[data-catid=%0]'.tokenize(category.id)).length >= 1 );
     };
     
-    var _show = function() {
+    var _show = function( callback ) {
     	if( isVisible() ) {
-    		if( !isOpen() ) {
-    			displayDetails();
-    		}
+            if( !isOpen() ) {
+                displayDetails(callback);
+            }
+            else {
+                if( callback ) {
+                    callback();
+                }
+            }
     	}
+        else {
+            if( callback ) {
+                callback();
+            }
+        }
     };
     
     var _hide = function() {
@@ -170,7 +203,7 @@ jon.CategoryModel = function( $context, category ) {
         var deleteButtonMarkup = '<button class="delete"></button>';
         addCategoryButton(deleteButtonMarkup);
 
-        // append + buttons
+        // append addanotherrow buttons
         var anotherRowButtonMarkup = '<button class="addanotherrow"></button>';
         addPairButton(anotherRowButtonMarkup);
         addSingleButton(anotherRowButtonMarkup);
@@ -181,6 +214,11 @@ jon.CategoryModel = function( $context, category ) {
         });
         locators().$singleAddAnotherRowButton().bind('click', function() {
             addAnotherSingleRow();
+        });
+
+        // append row delete buttons
+        $.each(locators().$pairTable().find('tr'), function( key, value ) {
+            $(value).css('background-color', 'red');
         });
 
         // contenteditable
@@ -260,8 +298,8 @@ jon.CategoryModel = function( $context, category ) {
     	return category.name;
     }
     
-    this.show = function() {
-    	_show();
+    this.show = function( callback ) {
+    	_show(callback);
     };
     
     this.hide = function() {
